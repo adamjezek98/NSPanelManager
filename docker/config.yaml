@@ -9,6 +9,12 @@ panel_icon: mdi:fit-to-screen
 ports:
   8000/tcp: 8000
   8001/tcp: 8001
+  80/tcp: 8000
+ports_description:
+  80/tcp: Web interface
+ingress: true
+ingress_port: 0
+ingress_stream: true
 environment:
   IS_HOME_ASSISTANT_ADDON: "true"
 init: false
