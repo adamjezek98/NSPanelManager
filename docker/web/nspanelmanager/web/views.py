@@ -2,6 +2,7 @@ from requests import delete
 from django.shortcuts import render, redirect, HttpResponse
 from django.core.files.storage import FileSystemStorage
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 from ranged_response import RangedFileResponse
 
@@ -40,7 +41,7 @@ def restart_mqtt_manager():
     mqttmanager_env["OPENHAB_TOKEN"] = get_setting_with_default("openhab_token", "")
     subprocess.Popen(["/usr/local/bin/python", "./mqtt_manager.py"], cwd="/usr/src/app/", env=mqttmanager_env)
 
-
+@xframe_options_exempt
 def index(request):
     if get_setting_with_default("use_farenheit", False) == "True":
         temperature_unit = "°F"
@@ -59,10 +60,12 @@ def index(request):
     })
 
 
+@xframe_options_exempt
 def rooms(request):
     return render(request, 'rooms.html', {'rooms': Room.objects.all().order_by('displayOrder')})
 
 
+@xframe_options_exempt
 def rooms_order(request):
     return render(request, 'rooms_order.html', {'rooms': Room.objects.all().order_by('displayOrder')})
 
@@ -112,6 +115,7 @@ def move_room_down(request, room_id: int):
     return redirect('rooms_order')
 
 
+@xframe_options_exempt
 def edit_room(request, room_id: int):
     total_num_rooms = Room.objects.all().count()
     room = Room.objects.filter(id=room_id).first()
@@ -155,6 +159,7 @@ def update_room_form(request, room_id: int):
     return redirect('edit_room', room_id=room_id)
 
 
+@xframe_options_exempt
 def edit_nspanel(request, panel_id: int):
     if get_setting_with_default("use_farenheit", False) == "True":
         temperature_unit = "°F"
@@ -392,6 +397,7 @@ def remove_light_from_room_view(request, room_id: int):
     return redirect('edit_room', room_id=room_id)
 
 
+@xframe_options_exempt
 def settings_page(request):
     environment = environ.Env()
 
