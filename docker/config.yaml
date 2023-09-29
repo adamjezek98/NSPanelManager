@@ -4,14 +4,13 @@ version: "0.1.22"
 image: docker.io/nspanelmanager/nspanelmanager-{arch}
 slug: "nspanelmanager"
 url: "https://nspanelmanager.com"
-webui: http://[HOST]:[PORT:8000]/
 panel_icon: mdi:fit-to-screen
 ports:
-  8001/tcp: 8001
   8000/tcp: 8000
+  8000/tcp: 8003
+  8001/tcp: 8001
 ports_description:
   8000/tcp: Web interface
-
 ingress: true
 ingress_port: 8000
 ingress_stream: true
